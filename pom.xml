@@ -23,6 +23,12 @@
             <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.1.0</version> <!-- Use the latest version -->
+            <scope>test</scope>
+        </dependency>
 
         <!-- Mockito -->
         <dependency>
@@ -82,23 +88,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- Specify which classes to mutate -->
-                    <targetClasses>
-                        <param>com.example.*</param> <!-- Change this to match your package -->
-                    </targetClasses>
 
-                    <!-- Specify the corresponding test classes -->
-                    <targetTests>
-                        <param>com.example.*Test</param> <!-- Change this to match your test classes -->
-                    </targetTests>
-
-                    <!-- Set mutation threshold (optional) -->
-                    <mutationThreshold>85</mutationThreshold>
-
-                    <!-- Exclude methods you don't want to test -->
-                    <excludedMethods>main</excludedMethods>
-                </configuration>
             </plugin>
         </plugins>
     </build>
