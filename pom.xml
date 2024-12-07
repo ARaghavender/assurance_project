@@ -59,26 +59,47 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
-            <!-- Compiler Plugin -->
+            <!-- Surefire Plugin for running JUnit 5 tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version> <!-- Ensure you have a version compatible with JUnit 5 -->
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <dependenciesToScan>
+                        <dependency>org.junit.jupiter</dependency>
+                    </dependenciesToScan>
                 </configuration>
-            </plugin>
 
+            </plugin>
             <!-- PIT Mutation Testing Plugin -->
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.14.0</version>
+                <configuration>
+                    <!-- Target all test classes -->
+                    <targetTests>
+                        <param>org.example.*</param>
+                        <param>*</param> <!-- Ensure unpackage Randoop tests are also covered -->
+                    </targetTests>
+
+                    <!-- Target your production code -->
+                    <targetClasses>
+                        <param>org.example.*</param>
+                    </targetClasses>
+                    <verbose>true</verbose> <!-- Optional: helps debug -->
+                </configuration>
                 <executions>
                     <execution>
                         <id>mutation-testing</id>
@@ -88,8 +109,9 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
+
         </plugins>
     </build>
+
 </project>

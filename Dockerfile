@@ -1,26 +1,24 @@
-# Use a Maven base image with JDK 17
+# Use an official Maven image to build your application
 FROM maven:3.8.4-openjdk-17-slim AS build
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml and download the dependencies
-COPY pom.xml .
-
-# Cache dependencies for faster builds
-RUN mvn dependency:go-offline
-
-# Copy the rest of the application source code
+# Copy the pom.xml and source code into the container
+COPY pom.xml ./
 COPY src ./src
 
-# Build the project
+# Build the application (including test and mutation testing)
 RUN mvn clean install
 
-# Use a smaller JRE image to run the app
-FROM openjdk:17-jre-slim
+# Use a smaller image to run the application
+FROM openjdk:17-jdk-slim
 
-# Copy the JAR file from the build stage
+# Copy the built jar file from the build stage
 COPY --from=build /app/target/productcrudapp-1.0-SNAPSHOT.jar /app/productcrudapp.jar
 
-# Set the entry point for the container
-ENTRYPOINT ["java", "-jar", "/app/productcrudapp.jar"]
+# Expose the port (if needed, for your application)
+EXPOSE 8080
+
+# Command to run the application
+CMD ["java", "-jar", "/app/productcrudapp.jar"]
