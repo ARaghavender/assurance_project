@@ -42,6 +42,9 @@ public class ProductService {
     }
 
     public boolean restockProduct(Long productId, int quantity) {
+        if (quantity < 0) {
+            return false;  // Prevent restocking with negative quantities
+        }
         Product product = productRepository.findById(productId);
         if (product != null) {
             product.setQuantity(product.getQuantity() + quantity);
@@ -51,15 +54,27 @@ public class ProductService {
         return false;
     }
 
+
     public boolean decrementStock(Long productId, int quantity) {
         Product product = productRepository.findById(productId);
-        if (product != null && product.getQuantity() >= quantity) {
-            product.setQuantity(product.getQuantity() - quantity);
-            productRepository.update(product);
-            return true;
+
+        // Invalid quantity cases (negative or greater than available stock)
+        if (quantity < 0 || quantity > product.getQuantity()) {
+            return false;  // Invalid operation
         }
-        return false;
+
+        int newQuantity = product.getQuantity() - quantity;
+        if (newQuantity < 0) {
+            return false;  // Prevent stock from going below 0
+        }
+
+        product.setQuantity(newQuantity);
+        productRepository.save(product);
+        return true;  // Success
     }
+
+
+
 
     public void addPriceHistory(Long productId, Double price) {
         Product product = productRepository.findById(productId);
@@ -73,7 +88,12 @@ public class ProductService {
         return product != null ? product.getPriceHistory() : null;
     }
 
+
     public void createOrder(Order order) {
+        if (order.getQuantity() <= 0) {
+            return;  // Do not process orders with invalid quantities
+        }
+
         Product product = productRepository.findById(order.getProductId());
         if (product != null && product.getQuantity() >= order.getQuantity()) {
             product.setQuantity(product.getQuantity() - order.getQuantity());
@@ -81,6 +101,7 @@ public class ProductService {
             productRepository.update(product);
         }
     }
+
 
     public List<Order> getAllOrders() {
         return productRepository.findAllOrders();

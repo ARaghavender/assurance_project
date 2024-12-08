@@ -11,18 +11,35 @@
 
     <dependencies>
         <!-- JUnit for testing -->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.0</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version> <!-- Or the latest version -->
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.0</version> <!-- Use the latest version -->
             <scope>test</scope>
         </dependency>
+
+
+
         <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>

@@ -1,7 +1,9 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Product {
     private Long id;
@@ -11,7 +13,7 @@ public class Product {
     private int quantity;
     private List<Double> priceHistory;
 
-    public Product(Long id, String name, String description, Double price, int quantity) {
+    public Product(Long id, String name, String description, Double price, Integer quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -60,9 +62,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public List<Double> getPriceHistory() {
-        return priceHistory;
-    }
+
 
     public void addPriceToHistory(Double price) {
         this.priceHistory.add(price);
@@ -71,5 +71,25 @@ public class Product {
     @Override
     public String toString() {
         return "Product{id=" + id + ", name='" + name + "', description='" + description + "', price=" + price + ", quantity=" + quantity + '}';
+    }
+    public List<Double> getPriceHistory() {
+        return Collections.unmodifiableList(priceHistory);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(description, product.description) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(quantity, product.quantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, quantity);
     }
 }

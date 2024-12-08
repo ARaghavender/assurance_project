@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Order {
     private Long id;
     private Long productId;
@@ -37,6 +39,21 @@ public class Order {
         this.status = status;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // Reflexivity
+        if (obj == null || getClass() != obj.getClass()) return false; // Null & Type check
+        Order order = (Order) obj;
+        return quantity == order.quantity &&
+                Objects.equals(id, order.id) &&
+                Objects.equals(productId, order.productId) &&
+                status == order.status; // Compare fields
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productId, quantity, status); // Generate consistent hash code
+    }
     @Override
     public String toString() {
         return "Order{id=" + id + ", productId=" + productId + ", quantity=" + quantity + ", status=" + status + '}';

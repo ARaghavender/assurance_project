@@ -1,6 +1,5 @@
 package org.example;
 
-
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,10 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainTest {
 
     @Test
-    void testApplicationRuns() {
-        ProductService productService = new ProductService(new ProductRepository());
-        Main mainApp = new Main(productService);
+    void testMainMethod() {
+        // Arrange
+        String[] args = {}; // Simulate empty arguments
 
-        assertDoesNotThrow(mainApp::run);
+        // Act & Assert
+        assertDoesNotThrow(() -> Main.main(args));
     }
 }

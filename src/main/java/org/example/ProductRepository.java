@@ -39,11 +39,17 @@ public class ProductRepository {
     }
 
     public List<Product> findByKeyword(String keyword) {
+        if (keyword == null) {
+            return Collections.emptyList(); // Return an empty list for null keyword
+        }
+
+        String lowerKeyword = keyword.toLowerCase();
         return productDatabase.values().stream()
-                .filter(product -> product.getName().toLowerCase().contains(keyword.toLowerCase())
-                        || product.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                .filter(product -> product.getName().toLowerCase().contains(lowerKeyword)
+                        || product.getDescription().toLowerCase().contains(lowerKeyword))
                 .collect(Collectors.toList());
     }
+
 
     public List<Product> findSortedByName() {
         return productDatabase.values().stream()
