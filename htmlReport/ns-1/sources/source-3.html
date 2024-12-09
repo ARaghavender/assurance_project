@@ -37,6 +37,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
@@ -55,7 +59,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (8/8)
+    (10/10)
   </span>
 </td>
 <td class="coverageStat">
@@ -63,7 +67,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (12/12)
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
   </span>
 </td>
 </tr>
@@ -77,12 +89,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package org.example;
 &nbsp;
-&nbsp;public class Order {
-&nbsp;    private Long id;
-&nbsp;    private Long productId;
-&nbsp;    private int quantity;
-&nbsp;    private OrderStatus status;
+&nbsp;import java.util.Objects;
 &nbsp;
+&nbsp;public class Order {
+&nbsp;
+&nbsp;    // Fields to store order information
+&nbsp;    private Long id;          // Unique identifier for the order
+&nbsp;    private Long productId;   // ID of the product being ordered
+&nbsp;    private int quantity;     // Quantity of the product being ordered
+&nbsp;    private OrderStatus status; // Status of the order (e.g., PENDING, COMPLETED)
+&nbsp;
+&nbsp;    // Constructor to initialize an Order object
 <b class="fc">&nbsp;    public Order(Long id, Long productId, int quantity, OrderStatus status) {</b>
 <b class="fc">&nbsp;        this.id = id;</b>
 <b class="fc">&nbsp;        this.productId = productId;</b>
@@ -90,33 +107,61 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.status = status;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Getter method for order ID
 &nbsp;    public Long getId() {
 <b class="fc">&nbsp;        return id;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Setter method for order ID
 &nbsp;    public void setId(Long id) {
 <b class="fc">&nbsp;        this.id = id;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Getter method for product ID associated with the order
 &nbsp;    public Long getProductId() {
 <b class="fc">&nbsp;        return productId;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Getter method for the quantity of the product in the order
 &nbsp;    public int getQuantity() {
 <b class="fc">&nbsp;        return quantity;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Getter method for the order&#39;s status
 &nbsp;    public OrderStatus getStatus() {
 <b class="fc">&nbsp;        return status;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Setter method for the order&#39;s status
 &nbsp;    public void setStatus(OrderStatus status) {
 <b class="fc">&nbsp;        this.status = status;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Override equals() method to compare two Order objects for equality
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj) {
+<b class="fc">&nbsp;        if (this == obj) return true; // Reflexivity: if both objects are the same, they are equal</b>
+<b class="fc">&nbsp;        if (obj == null || getClass() != obj.getClass()) return false; // Null check and type check</b>
+&nbsp;
+&nbsp;        // Cast the object to Order and compare relevant fields
+<b class="fc">&nbsp;        Order order = (Order) obj;</b>
+<b class="fc">&nbsp;        return quantity == order.quantity &amp;&amp; // Compare quantity</b>
+<b class="fc">&nbsp;                Objects.equals(id, order.id) &amp;&amp; // Compare order ID</b>
+<b class="fc">&nbsp;                Objects.equals(productId, order.productId) &amp;&amp; // Compare product ID</b>
+&nbsp;                status == order.status; // Compare order status
+&nbsp;    }
+&nbsp;
+&nbsp;    // Override hashCode() to generate a unique hash code based on the object&#39;s fields
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(id, productId, quantity, status); // Generate hash code based on id, productId, quantity, and status</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Override toString() to return a string representation of the Order object
 &nbsp;    @Override
 &nbsp;    public String toString() {
 <b class="fc">&nbsp;        return &quot;Order{id=&quot; + id + &quot;, productId=&quot; + productId + &quot;, quantity=&quot; + quantity + &quot;, status=&quot; + status + &#39;}&#39;;</b>
+&nbsp;        // Return a formatted string displaying the order details
 &nbsp;    }
 &nbsp;}
 </code>
@@ -142,7 +187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-12-07 03:18</div>
+    <div style="float:right;">generated on 2024-12-08 16:59</div>
 </div>
 </body>
 </html>

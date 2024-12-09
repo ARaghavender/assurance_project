@@ -12,12 +12,7 @@
     <dependencies>
         <!-- JUnit for testing -->
 
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0</version> <!-- Or the latest version -->
-            <scope>test</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -55,13 +50,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- H2 Database for in-memory storage -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-            <scope>runtime</scope>
-        </dependency>
+
 
         <!-- SLF4J for logging (optional) -->
         <dependency>
@@ -70,12 +59,7 @@
             <version>1.7.30</version>
         </dependency>
 
-        <!-- Logging with logback (optional) -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -64,10 +64,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    60%
+    91.7%
   </span>
   <span class="absValue">
-    (6/10)
+    (11/12)
   </span>
 </td>
 <td class="coverageStat">
@@ -75,7 +75,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (28/28)
+    (31/31)
   </span>
 </td>
 </tr>
@@ -93,70 +93,89 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.stream.Collectors;
 &nbsp;
 <b class="fc">&nbsp;public class ProductRepository {</b>
-<b class="fc">&nbsp;    private Map&lt;Long, Product&gt; productDatabase = new HashMap&lt;&gt;();</b>
-<b class="fc">&nbsp;    private Map&lt;Long, Order&gt; orderDatabase = new HashMap&lt;&gt;();</b>
-<b class="fc">&nbsp;    private Long productIdCounter = 1L;</b>
-<b class="fc">&nbsp;    private Long orderIdCounter = 1L;</b>
 &nbsp;
+&nbsp;    // Database simulation using maps to store products and orders
+<b class="fc">&nbsp;    private Map&lt;Long, Product&gt; productDatabase = new HashMap&lt;&gt;();  // Stores products by their unique ID</b>
+<b class="fc">&nbsp;    private Map&lt;Long, Order&gt; orderDatabase = new HashMap&lt;&gt;();      // Stores orders by their unique ID</b>
+<b class="fc">&nbsp;    private Long productIdCounter = 1L;  // Counter for generating unique product IDs</b>
+<b class="fc">&nbsp;    private Long orderIdCounter = 1L;    // Counter for generating unique order IDs</b>
+&nbsp;
+&nbsp;    // Save a new product to the database
 &nbsp;    public void save(Product product) {
-<b class="pc">&nbsp;        if (product.getId() == null) {</b>
-<b class="fc">&nbsp;            product.setId(productIdCounter++);</b>
+<b class="fc">&nbsp;        if (product.getId() == null) {</b>
+<b class="fc">&nbsp;            product.setId(productIdCounter++);  // If the product doesn&#39;t have an ID, assign one using the counter</b>
 &nbsp;        }
-<b class="fc">&nbsp;        productDatabase.put(product.getId(), product);</b>
+<b class="fc">&nbsp;        productDatabase.put(product.getId(), product);  // Store the product in the map with its ID as the key</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Find a product by its unique ID
 &nbsp;    public Product findById(Long id) {
-<b class="fc">&nbsp;        return productDatabase.get(id);</b>
+<b class="fc">&nbsp;        return productDatabase.get(id);  // Retrieve the product from the map using its ID</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Update an existing product
 &nbsp;    public void update(Product product) {
-<b class="fc">&nbsp;        productDatabase.put(product.getId(), product);</b>
+<b class="fc">&nbsp;        productDatabase.put(product.getId(), product);  // Replace the existing product in the map with the updated one</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Delete a product by its unique ID
 &nbsp;    public boolean delete(Long id) {
-<b class="pc">&nbsp;        return productDatabase.remove(id) != null;</b>
+<b class="fc">&nbsp;        return productDatabase.remove(id) != null;  // Remove the product and return true if it was removed</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Get all products in the database
 &nbsp;    public List&lt;Product&gt; findAll() {
-<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(productDatabase.values());</b>
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(productDatabase.values());  // Return all products as a list</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Find products with price below a specified threshold
 &nbsp;    public List&lt;Product&gt; findByPriceBelow(Double threshold) {
-<b class="fc">&nbsp;        return productDatabase.values().stream()</b>
-<b class="fc">&nbsp;                .filter(product -&gt; product.getPrice() &lt; threshold)</b>
-<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;        return productDatabase.values().stream()  // Stream through all products</b>
+<b class="fc">&nbsp;                .filter(product -&gt; product.getPrice() &lt; threshold)  // Filter based on the price</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());  // Collect the results as a list</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Find products based on a keyword (either in the name or description)
 &nbsp;    public List&lt;Product&gt; findByKeyword(String keyword) {
-<b class="fc">&nbsp;        return productDatabase.values().stream()</b>
-<b class="pc">&nbsp;                .filter(product -&gt; product.getName().toLowerCase().contains(keyword.toLowerCase())</b>
-<b class="fc">&nbsp;                        || product.getDescription().toLowerCase().contains(keyword.toLowerCase()))</b>
-<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;        if (keyword == null) {</b>
+<b class="fc">&nbsp;            return Collections.emptyList();  // Return an empty list if the keyword is null</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String lowerKeyword = keyword.toLowerCase();  // Convert the keyword to lowercase for case-insensitive search</b>
+<b class="fc">&nbsp;        return productDatabase.values().stream()  // Stream through all products</b>
+<b class="fc">&nbsp;                .filter(product -&gt; product.getName().toLowerCase().contains(lowerKeyword)  // Check if name contains keyword</b>
+<b class="fc">&nbsp;                        || product.getDescription().toLowerCase().contains(lowerKeyword))  // Check if description contains keyword</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());  // Collect the results as a list</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Find all products sorted by their name
 &nbsp;    public List&lt;Product&gt; findSortedByName() {
-<b class="fc">&nbsp;        return productDatabase.values().stream()</b>
-<b class="fc">&nbsp;                .sorted(Comparator.comparing(Product::getName))</b>
-<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;        return productDatabase.values().stream()  // Stream through all products</b>
+<b class="fc">&nbsp;                .sorted(Comparator.comparing(Product::getName))  // Sort products by their name</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());  // Collect the results as a list</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Save a new order to the database
 &nbsp;    public void saveOrder(Order order) {
 <b class="pc">&nbsp;        if (order.getId() == null) {</b>
-<b class="fc">&nbsp;            order.setId(orderIdCounter++);</b>
+<b class="fc">&nbsp;            order.setId(orderIdCounter++);  // If the order doesn&#39;t have an ID, assign one using the counter</b>
 &nbsp;        }
-<b class="fc">&nbsp;        orderDatabase.put(order.getId(), order);</b>
+<b class="fc">&nbsp;        orderDatabase.put(order.getId(), order);  // Store the order in the map with its ID as the key</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Find an order by its unique ID
 &nbsp;    public Order findOrderById(Long id) {
-<b class="fc">&nbsp;        return orderDatabase.get(id);</b>
+<b class="fc">&nbsp;        return orderDatabase.get(id);  // Retrieve the order from the map using its ID</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Update an existing order
 &nbsp;    public void updateOrder(Order order) {
-<b class="fc">&nbsp;        orderDatabase.put(order.getId(), order);</b>
+<b class="fc">&nbsp;        orderDatabase.put(order.getId(), order);  // Replace the existing order in the map with the updated one</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Get all orders in the database
 &nbsp;    public List&lt;Order&gt; findAllOrders() {
-<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(orderDatabase.values());</b>
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(orderDatabase.values());  // Return all orders as a list</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -182,7 +201,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-12-07 03:18</div>
+    <div style="float:right;">generated on 2024-12-08 16:59</div>
 </div>
 </body>
 </html>
